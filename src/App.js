@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
@@ -14,6 +14,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isErrorMessage, setIsErrorMessage] = useState(null)
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -53,6 +54,7 @@ const App = () => {
   const createBlog = async (blogObject) => {
     try{
       await blogService.create(blogObject)
+      blogFormRef.current.toggleVisibility()
       setErrorMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       setIsErrorMessage(false)
       setTimeout(() => {
@@ -60,8 +62,7 @@ const App = () => {
         setIsErrorMessage(null)
       }, 5000)
     } catch (exception) {
-      console.log(exception)
-      setErrorMessage('The blog could not be added')
+      setErrorMessage(exception.response.data.error)
       setIsErrorMessage(true)
       setTimeout(() => {
         setErrorMessage(null)
@@ -86,7 +87,7 @@ const App = () => {
             <button onClick={logOut}>log out</button>
             <br />
             <br />
-            <Togglable buttonLabel='create a new blog'>
+            <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
               <BlogForm createBlog = { createBlog }  />
             </Togglable>
             <h2>Blogs</h2>
