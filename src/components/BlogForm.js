@@ -1,18 +1,30 @@
+import { useState } from 'react'
+import blogs from '../services/blogs'
 
-const BlogForm = ({ 
-    handleSubmit,
-    title,
-    setTitle,
-    author,
-    setAuthor,
-    url,
-    setUrl 
-}) => {
 
+const BlogForm = ({ createBlog }) => {
+    
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const addBlog = (event) => {
+    event.preventDefault()
+
+    const blogObject = {
+      title: `${title}`,
+      author: `${author}`,
+      url: `${url}`
+    }
+    createBlog(blogObject)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
 
   return(
     <>
-      <form onSubmit = { handleSubmit }>
+      <form onSubmit = { addBlog }>
         <div>
           title: 
           <input type="text" value={ title } onChange={ ({ target }) => setTitle(target.value)} />

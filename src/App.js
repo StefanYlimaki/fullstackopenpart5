@@ -14,10 +14,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isErrorMessage, setIsErrorMessage] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  const [addBlogVisible, setAddBlogVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,14 +32,11 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-
     try {
       const user = await loginService.login({
         username, password,
       })
-
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
-
       setUser(user)
       setUsername('')
       setPassword('')
@@ -57,26 +50,17 @@ const App = () => {
     }
   }
 
-  const handleNewBlog = async (event) => {
-    event.preventDefault()
-
+  const createBlog = async (blogObject) => {
     try{
-      const blog = {
-        title:`${title}`,
-        author:`${author}`,
-        url:`${url}`
-      }
-      await blogService.create(blog)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setErrorMessage(`a new blog ${title} by ${author} added`)
+      await blogService.create(blogObject)
+      setErrorMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       setIsErrorMessage(false)
       setTimeout(() => {
         setErrorMessage(null)
         setIsErrorMessage(null)
       }, 5000)
     } catch (exception) {
+      console.log(exception)
       setErrorMessage('The blog could not be added')
       setIsErrorMessage(true)
       setTimeout(() => {
@@ -90,23 +74,6 @@ const App = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
   }
-
-  const blogForm = () => {
-    return(
-      <>
-        <Togglable buttonLabel='create a new blog'>
-          <BlogForm 
-            handleSubmit= { handleNewBlog } 
-            title = { title } 
-            setTitle = { setTitle } 
-            author = { author } 
-            setAuthor = { setAuthor } 
-            url = { url } 
-            setUrl = { setUrl } />
-        </Togglable>
-      </>
-    )
-  }
   
   return (
     <div>
@@ -119,7 +86,9 @@ const App = () => {
             <button onClick={logOut}>log out</button>
             <br />
             <br />
-            {blogForm()}
+            <Togglable buttonLabel='create a new blog'>
+              <BlogForm createBlog = { createBlog }  />
+            </Togglable>
             <h2>Blogs</h2>
             <DisplayBlogs a={ blogs } />
           </div>
