@@ -5,6 +5,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginFrom'
 import DisplayBlogs from './components/DisplayBlogs'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -16,6 +17,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [addBlogVisible, setAddBlogVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -58,8 +60,6 @@ const App = () => {
   const handleNewBlog = async (event) => {
     event.preventDefault()
 
-    console.log(`Adding ${title} ${author} ${url} to the list`)
-
     try{
       const blog = {
         title:`${title}`,
@@ -91,6 +91,23 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
 
+  const blogForm = () => {
+    return(
+      <>
+        <Togglable buttonLabel='create a new blog'>
+          <BlogForm 
+            handleSubmit= { handleNewBlog } 
+            title = { title } 
+            setTitle = { setTitle } 
+            author = { author } 
+            setAuthor = { setAuthor } 
+            url = { url } 
+            setUrl = { setUrl } />
+        </Togglable>
+      </>
+    )
+  }
+  
   return (
     <div>
       <Notification message={errorMessage} type={isErrorMessage} />
@@ -102,8 +119,7 @@ const App = () => {
             <button onClick={logOut}>log out</button>
             <br />
             <br />
-            <h2>Add a new blog</h2>
-            <BlogForm a = { handleNewBlog } b = { title } c = { setTitle } d = { author } e = { setAuthor } f = { url } g = { setUrl } />
+            {blogForm()}
             <h2>Blogs</h2>
             <DisplayBlogs a={ blogs } />
           </div>

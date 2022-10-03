@@ -1,24 +1,31 @@
-import { useState } from 'react'
 
-const BlogForm = ({ a, b, c, d, e, f, g }) => {
+const BlogForm = ({ 
+    handleSubmit,
+    title,
+    setTitle,
+    author,
+    setAuthor,
+    url,
+    setUrl 
+}) => {
 
 
   return(
     <>
-      <form onSubmit = { a }>
+      <form onSubmit = { handleSubmit }>
         <div>
           title: 
-          <input type="text" value={ b } onChange={ ({ target }) => c(target.value)} />
+          <input type="text" value={ title } onChange={ ({ target }) => setTitle(target.value)} />
         </div>
         <div>
           author: 
-          <input type="text" value={ d } onChange={ ({ target }) => e(target.value)} />
+          <input type="text" value={ author } onChange={ ({ target }) => setAuthor(target.value)} />
         </div>
         <div>
           url: 
-          <input type="text" value={ f } onChange={ ({ target }) => g(target.value)} />
+          <input type="text" value={ url } onChange={ ({ target }) => setUrl(target.value)} />
         </div>
-        <button type="submit">add</button>
+        <button type="submit">create</button>
       </form>
     </>
   )
