@@ -53,9 +53,9 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      await blogService.create(blogObject)
+      const response = await blogService.create(blogObject)
       blogFormRef.current.toggleVisibility()
-      setBlogs(blogs.concat(blogObject))
+      setBlogs(blogs.concat(response))
       setErrorMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       setIsErrorMessage(false)
       setTimeout(() => {
@@ -70,6 +70,7 @@ const App = () => {
         setIsErrorMessage(null)
       }, 5000)
     }
+
   }
 
   const logOut = () => {

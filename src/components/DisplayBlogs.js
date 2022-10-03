@@ -1,6 +1,6 @@
 import Blog from './Blog'
 
-const DisplayBlogs = ({ blogs}) => {
+const DisplayBlogs = ({ blogs, setBlogs}) => {
 
   let sortedBlogs = blogs.sort((a, b) => {
     if(a.likes < b.likes) {
@@ -15,7 +15,7 @@ const DisplayBlogs = ({ blogs}) => {
   return(
     <>
       {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
       )}
     </>
   )
