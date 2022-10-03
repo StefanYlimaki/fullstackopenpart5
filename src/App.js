@@ -9,8 +9,8 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isErrorMessage, setIsErrorMessage] = useState(null)
@@ -18,8 +18,8 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const App = () => {
   }
 
   const createBlog = async (blogObject) => {
-    try{
+    try {
       await blogService.create(blogObject)
       blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(blogObject))
@@ -76,25 +76,25 @@ const App = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
   }
-  
+
   return (
     <div>
       <Notification message={errorMessage} type={isErrorMessage} />
-      {user === null 
-        ? <LoginForm a={ handleLogin } b = { username } c = { password } d = { setUsername } e = { setPassword }/> 
+      {user === null
+        ? <LoginForm a={handleLogin} b={username} c={password} d={setUsername} e={setPassword} />
         :
-          <div>
-            <p>Signed in as { user.name }</p>
-            <button onClick={logOut}>log out</button>
-            <br />
-            <br />
-            <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
-              <BlogForm createBlog = { createBlog }  />
-            </Togglable>
-            <h2>Blogs</h2>
-            <DisplayBlogs a={ blogs } />
-          </div>
-    }
+        <div>
+          <p>Signed in as {user.name}</p>
+          <button onClick={logOut}>log out</button>
+          <br />
+          <br />
+          <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} />
+          </Togglable>
+          <h2>Blogs</h2>
+          <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
+        </div>
+      }
     </div>
   )
 }
