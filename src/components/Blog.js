@@ -25,14 +25,17 @@ const Blog = ({ blog,setBlogs, blogs }) => {
     }
   }
 
+
+
   if(showFullBlog) {
+    console.log(blog.user.username, user.username)
     return(
       <div className='blog'>
         <div>
           <strong>Title:</strong> {blog.title} 
           <button onClick={ toggleShowFull }>hide</button>
           {blog.user.username === user.username
-            ? <button onClick={removeBlog}>remove</button>
+            ? <button onClick={removeBlog}>remove</button> 
             : <></>
           }
         </div>

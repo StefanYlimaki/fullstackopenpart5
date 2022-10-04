@@ -16,6 +16,33 @@ const App = () => {
   const [isErrorMessage, setIsErrorMessage] = useState(null)
   const blogFormRef = useRef()
 
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      const loggedUserJSON = window.localStorage.getItem('loggedUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        setUser(user)
+        blogService.setToken(user.token)
+      }
+
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('wrong username or password')
+      setIsErrorMessage(true)
+      setTimeout(() => {
+        setErrorMessage(null)
+        setIsErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -30,26 +57,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong username or password')
-      setIsErrorMessage(true)
-      setTimeout(() => {
-        setErrorMessage(null)
-        setIsErrorMessage(null)
-      }, 5000)
-    }
-  }
 
   const createBlog = async (blogObject) => {
     try {
@@ -76,25 +83,31 @@ const App = () => {
   const logOut = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
+    window.localStorage.clear()
   }
 
   return (
     <div>
       <Notification message={errorMessage} type={isErrorMessage} />
       {user === null
-        ? <LoginForm a={handleLogin} b={username} c={password} d={setUsername} e={setPassword} />
+        ? <LoginForm 
+            handleLogin={handleLogin} 
+            username={username} 
+            password={password} 
+            setUsername={setUsername} 
+            setPassword={setPassword} />
         :
-        <div>
-          <p>Signed in as {user.name}</p>
-          <button onClick={logOut}>log out</button>
-          <br />
-          <br />
-          <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
-            <BlogForm createBlog={createBlog} />
-          </Togglable>
-          <h2>Blogs</h2>
-          <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
-        </div>
+          <div>
+            <p>Signed in as {user.name}</p>
+            <button onClick={logOut}>log out</button>
+            <br />
+            <br />
+            <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
+              <BlogForm createBlog={createBlog} />
+            </Togglable>
+            <h2>Blogs</h2>
+            <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
+          </div>
       }
     </div>
   )

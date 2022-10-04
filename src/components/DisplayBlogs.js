@@ -1,4 +1,5 @@
 import Blog from './Blog'
+import PropTypes from 'prop-types'
 
 const DisplayBlogs = ({ blogs, setBlogs}) => {
 
@@ -19,6 +20,10 @@ const DisplayBlogs = ({ blogs, setBlogs}) => {
       )}
     </>
   )
+}
+
+DisplayBlogs.propTypes = {
+  setBlogs: PropTypes.func.isRequired
 }
 
 export default DisplayBlogs
