@@ -6,6 +6,8 @@ const SingleBlog = ({ blog, handleLike, removeBlog, user, likes }) => {
     setShowFullBlog(!showFullBlog)
   }
 
+  console.log(blog, user)
+
   if(showFullBlog){
     return(
       <div>
