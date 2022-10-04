@@ -1,7 +1,7 @@
 import Blog from './Blog'
 import PropTypes from 'prop-types'
 
-const DisplayBlogs = ({ blogs, setBlogs}) => {
+const DisplayBlogs = ({ blogs, setBlogs }) => {
 
   let sortedBlogs = blogs.sort((a, b) => {
     if(a.likes < b.likes) {

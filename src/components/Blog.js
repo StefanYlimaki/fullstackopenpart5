@@ -12,7 +12,7 @@ const Blog = ({ blog,setBlogs, blogs }) => {
   }
 
   const handleLike = async () => {
-    const blogObject = {...blog, likes: likes + 1}
+    const blogObject = { ...blog, likes: likes + 1 }
     const id = blogObject.id
     await blogService.update(id, blogObject)
     setLikes(likes + 1)
@@ -32,21 +32,21 @@ const Blog = ({ blog,setBlogs, blogs }) => {
     return(
       <div className='blog'>
         <div>
-          <strong>Title:</strong> {blog.title} 
+          <strong>Title:</strong> {blog.title}
           <button onClick={ toggleShowFull }>hide</button>
           {blog.user.username === user.username
-            ? <button onClick={removeBlog}>remove</button> 
+            ? <button onClick={removeBlog}>remove</button>
             : <></>
           }
         </div>
-        <div><strong>Author:</strong> {blog.author} </div>  
+        <div><strong>Author:</strong> {blog.author} </div>
         <div><strong>Url:</strong> {blog.url} </div>
         <div>
-          <strong>Likes:</strong> {likes} 
+          <strong>Likes:</strong> {likes}
           <button onClick={handleLike}>like</button>
         </div>
         <div><strong>Id:</strong> {blog.id.toString()} </div>
-      </div> 
+      </div>
     )
   }
 
@@ -56,18 +56,18 @@ const Blog = ({ blog,setBlogs, blogs }) => {
         <strong>Title:</strong> {blog.title}
         <button onClick={ toggleShowFull }>view</button>
         {blog.user.username === user.username
-            ? <button onClick={removeBlog}>remove</button>
-            : <></>
-          }
-      </div> 
+          ? <button onClick={removeBlog}>remove</button>
+          : <></>
+        }
+      </div>
       <div><strong>Author:</strong> {blog.author} </div>
-    </div> 
+    </div>
   )
 }
 
 
-  
-  
+
+
 
 
 export default Blog

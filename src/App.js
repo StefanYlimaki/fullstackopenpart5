@@ -90,24 +90,24 @@ const App = () => {
     <div>
       <Notification message={errorMessage} type={isErrorMessage} />
       {user === null
-        ? <LoginForm 
-            handleLogin={handleLogin} 
-            username={username} 
-            password={password} 
-            setUsername={setUsername} 
-            setPassword={setPassword} />
+        ? <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword} />
         :
-          <div>
-            <p>Signed in as {user.name}</p>
-            <button onClick={logOut}>log out</button>
-            <br />
-            <br />
-            <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
-              <BlogForm createBlog={createBlog} />
-            </Togglable>
-            <h2>Blogs</h2>
-            <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
-          </div>
+        <div>
+          <p>Signed in as {user.name}</p>
+          <button onClick={logOut}>log out</button>
+          <br />
+          <br />
+          <Togglable buttonLabel='create a new blog' ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} />
+          </Togglable>
+          <h2>Blogs</h2>
+          <DisplayBlogs blogs={blogs} setBlogs={setBlogs} />
+        </div>
       }
     </div>
   )
