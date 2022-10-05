@@ -23,8 +23,8 @@ const Blog = ({ blog, setBlogs, blogs }) => {
 
 
   return(
-    <div className='blog'>
-      <SingleBlog blog={blog} handleLike={handleLike} removeBlog={removeBlog} user={user} likes={likes}/>
+    <div>
+      <SingleBlog  blog={blog} handleLike={handleLike} removeBlog={removeBlog} user={user} likes={likes}/>
     </div>
   )
 }

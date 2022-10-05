@@ -10,18 +10,18 @@ const SingleBlog = ({ blog, handleLike, removeBlog, user, likes }) => {
 
   if(showFullBlog){
     return(
-      <div>
+      <div className='blog'>
         <div>
           <strong>Title:</strong> {blog.title}
           <button onClick={ toggleShowFull }>hide</button>
           {blog.user.username === user.username
-            ? <button onClick={removeBlog}>remove</button>
+            ? <button d='remove-button' onClick={removeBlog}>remove</button>
             : <></>
           }
         </div>
         <div><strong>Author:</strong> {blog.author} </div>
         <div><strong>Url:</strong> {blog.url} </div>
-        <div>
+        <div id='likes'>
           <strong>Likes:</strong> {likes}
           <button onClick={handleLike}>like</button>
         </div>
@@ -30,12 +30,12 @@ const SingleBlog = ({ blog, handleLike, removeBlog, user, likes }) => {
     )
   }
   return(
-    <div>
+    <div className='blog'>
       <div>
         <strong>Title:</strong> {blog.title}
         <button onClick={ toggleShowFull }>view</button>
         {blog.user.username === user.username
-          ? <button onClick={removeBlog}>remove</button>
+          ? <button id='remove-button' onClick={removeBlog}>remove</button>
           : <></>
         }
       </div>
